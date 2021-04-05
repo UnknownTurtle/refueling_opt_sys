@@ -1,0 +1,8 @@
+ru/spbu/mas/MainController.java
+ ru.spbu.mas.MainController
+ru/spbu/mas/DefaultAgent.java
+ ru.spbu.mas.DefaultAgent
+ru/spbu/mas/App.java
+ ru.spbu.mas.App
+ru/spbu/mas/FindAverage.java
+ ru.spbu.mas.FindAverage
