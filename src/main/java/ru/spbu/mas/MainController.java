@@ -9,6 +9,7 @@ import jade.wrapper.ContainerController;
 
 class MainController {
     private static final int numberOfAgents = 15;
+
     void initAgents() {
 // Retrieve the singleton instance of the JADE Runtime
         HashMap<Integer, String> neighbors = new HashMap<Integer, String>();

@@ -6,7 +6,7 @@ import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 
 public class FindAverage extends TickerBehaviour {
-    private final DefaultAgent agent;
+        private final DefaultAgent agent;
     private final double a = 0.1;
     private int currentStep;
     private final int MAX_STEPS = 100;
