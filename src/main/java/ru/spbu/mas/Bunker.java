@@ -1,7 +1,15 @@
 package ru.spbu.mas;
 
+import java.util.ArrayList;
+
 public class Bunker {
     //new class
     String type;
-    Schedule mySchedule = new Schedule();
+    ArrayList<Request> mySchedule = new ArrayList<>();
+
+
+    public static void setRequest()
+    {
+
+    }
 }

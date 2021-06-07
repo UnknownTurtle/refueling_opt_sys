@@ -1,5 +1,16 @@
 package ru.spbu.mas;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.reflect.Array;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
@@ -9,7 +20,30 @@ import jade.wrapper.ContainerController;
 
 class MainController {
     private static final int numberOfAgents = 15;
+    void initRequests(){
+        String name = "src/main/java/ru/spbu/mas/requests.txt";
+        ArrayList<String> list = new ArrayList<>();
+        try(BufferedReader reader = new BufferedReader(new FileReader(name))){
+            String line;
+            while ((line=reader.readLine())!=null){
+                list.add(line);
+            }
+            String arr[] = list.toArray(new String[0]);
+            for(String str: arr){
+                String temp[];
+                temp = str.split(";");
+                Request request = new Request(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),Double.parseDouble(temp[3]));
 
+                //Request request1 = new Request("2000-01-01 10:00", 5,5,1.00);
+            }
+
+            //System.out.println(list);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
     void initAgents() {
 // Retrieve the singleton instance of the JADE Runtime
         HashMap<Integer, String> neighbors = new HashMap<Integer, String>();
