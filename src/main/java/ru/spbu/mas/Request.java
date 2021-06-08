@@ -1,5 +1,4 @@
 package ru.spbu.mas;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +10,7 @@ public class Request {
     int pier = 0; // номер причала
     double m = 0.0;
     boolean status = true;
-    String type; // тип бенкеруемого вещества
+    String type; // тип бункеруемого вещества
 
     public Request(String date, int port, int pier, double m){
         this.date = transform(date);
@@ -20,15 +19,11 @@ public class Request {
         this.m = m;
         show();
     }
+
     public void show(){
-        System.out.println(dateFormat.format(this.date)+" "+this.port+" "+this.pier+" "+this.m);
+        System.out.println("Получена заявка: "+dateFormat.format(this.date)+" "+this.port+" "+this.pier+" "+this.m);
     }
 
-    public void printdata()
-    {
-        String str = String.format("date is %tc", date);
-        System.out.println(date.toString());
-    }
     public static Date transform(String a)
     {
         SimpleDateFormat myDate = new SimpleDateFormat("yyyy-MM-dd HH:mm");

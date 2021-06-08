@@ -1,6 +1,5 @@
 package ru.spbu.mas;
 
-import com.sun.prism.null3d.NULL3DPipeline;
 import jade.core.Agent;
 import jade.core.AID;
 import jade.core.behaviours.TickerBehaviour;
