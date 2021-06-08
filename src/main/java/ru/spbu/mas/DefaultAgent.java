@@ -31,11 +31,38 @@ public class DefaultAgent extends Agent {
                 AID uid = new AID(neighbor, AID.ISLOCALNAME);
                 linkedAgents.add(uid);
                 mess.addReceiver(uid);
+                if (getAID().getLocalName()=="1") {
+                    while(mess.getAllReceiver().hasNext()) {
+                        System.out.println(mess.getAllReceiver().next());
+                    }
+                }
+
             }
+
             //send(mess);
             int ID = Integer.parseInt(getAID().getLocalName());
-            System.out.println("Agent #" + ID + " my number is " + number);
-            addBehaviour(new FindAverage(this,TimeUnit.SECONDS.toMillis(1)));
+            if (ID == 5) {
+                System.out.println("BEFORE DELETED I`m default Agent #" + ID + " " + mess);
+                System.out.println(linkedAgents);
+            }
+
+            AID uid1 = new AID(String.valueOf(19), AID.ISLOCALNAME);
+            mess.removeReceiver(uid1);
+            linkedAgents.remove(uid1);
+            if (ID == 5) {
+                System.out.println("AFTER DELETED I`m default Agent #" + ID + " " + mess);
+                System.out.println(linkedAgents);
+            }
+            AID uid = new AID(String.valueOf(ID), AID.ISLOCALNAME);
+
+          //  uid.removeResolvers(uid1);
+            //System.out.println("I`m default Agent #" + ID + " my number is " + number);
+            /*while(mess.get().hasNext()){
+
+                System.out.println(mess.getAllIntendedReceiver().next());
+            }*/
+           // System.out.println("STOP____________");
+            //addBehaviour(new FindAverage(this,TimeUnit.SECONDS.toMillis(1)));
         }
     }
 }

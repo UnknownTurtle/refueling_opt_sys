@@ -1,11 +1,10 @@
 package ru.spbu.mas;
 
-import jade.core.Agent;
 import jade.core.AID;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 
-public class FindAverage extends TickerBehaviour {
+public class ProcessingRequests extends TickerBehaviour {
     private final DefaultAgent agent;
     private final double a = 0.1;
     private int currentStep;
@@ -13,20 +12,27 @@ public class FindAverage extends TickerBehaviour {
     private double value = 0;
     private boolean firstDelivery = true;
     private ACLMessage mes = new ACLMessage(ACLMessage.INFORM);
+    private ACLMessage query = new ACLMessage(ACLMessage.REQUEST);
 
-    FindAverage(DefaultAgent agent, long period) {
+    ProcessingRequests(DefaultAgent agent, long period) {
         super(agent, period);
         this.setFixedPeriod(true);
         this.agent = agent;
 
         for (AID n: agent.LinkedAgents()) {
             mes.addReceiver(n);
+            query.addReceiver(n);
         }
     }
-
     @Override
     protected void onTick() {
         ACLMessage msg = agent.receive();
+        mes.setContent("Search bunker");
+       agent.send();
+
+
+
+
         if (msg==null && firstDelivery) {
             value = agent.GetValue() + (float) (Math.random() * 2 - 1); // добавление искажения [-1.0;1.0]
             System.out.println("Шаг: "+currentStep+". Отправлено число " + value + " от агента " + agent.getLocalName());
@@ -52,8 +58,5 @@ public class FindAverage extends TickerBehaviour {
             System.out.println("Среднее арифметическое агента #" + agent.getLocalName() + " = " + agent.GetValue());
             this.stop();
         }
-    }
-    private double MakeMean(double my, double notmy) {
-        return (my + a * (notmy - my));
     }
 }
