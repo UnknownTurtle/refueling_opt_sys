@@ -32,9 +32,7 @@ public class Bunker extends Agent{
     @Override
     protected void setup() {
         Object[] args = getArguments();
-        //number = String.valueOf(Math.random()*(99-1)+1);
-        number = (int)(Math.random()*(99-1)+1);
-        mess.setContent(Integer.toString(0));
+
         if (args != null && args.length > 0) {
             String[] neighbors = args[0].toString().split(", ");
             for (String neighbor : neighbors) {
@@ -44,8 +42,8 @@ public class Bunker extends Agent{
             }
             //send(mess);
             int ID = Integer.parseInt(getAID().getLocalName());
-            System.out.println("I`m a bunker #" + ID + " my number is " + number);
-            //addBehaviour(new FindAverage(this, TimeUnit.SECONDS.toMillis(1)));
+            //System.out.println("I`m a bunker #" + ID);
+            addBehaviour(new ProcessingRequests(this, TimeUnit.SECONDS.toMillis(1)));
         }
     }
 }

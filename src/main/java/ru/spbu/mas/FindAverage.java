@@ -5,14 +5,19 @@ import jade.core.AID;
 import jade.core.behaviours.TickerBehaviour;
 import jade.lang.acl.ACLMessage;
 
+import java.util.ArrayList;
+
 public class FindAverage extends TickerBehaviour {
     private final DefaultAgent agent;
-    private final double a = 0.1;
+    private int c = 0;
     private int currentStep;
     private final int MAX_STEPS = 100;
     private double value = 0;
     private boolean firstDelivery = true;
     private ACLMessage mes = new ACLMessage(ACLMessage.INFORM);
+    private ACLMessage query = new ACLMessage(ACLMessage.REQUEST);
+    private ACLMessage yes = new ACLMessage(ACLMessage.AGREE);
+    private ArrayList<String> agentsList = new ArrayList<>();
 
     FindAverage(DefaultAgent agent, long period) {
         super(agent, period);
@@ -21,39 +26,56 @@ public class FindAverage extends TickerBehaviour {
 
         for (AID n: agent.LinkedAgents()) {
             mes.addReceiver(n);
+            query.addReceiver(n);
         }
+        this.agentsList.add("19");
+        this.agentsList.add("20");
+        this.agentsList.add("21");
+        this.agentsList.add("22");
+        this.agentsList.add("23");
+        this.agentsList.add("24");
     }
 
     @Override
     protected void onTick() {
         ACLMessage msg = agent.receive();
-        if (msg==null && firstDelivery) {
-            value = agent.GetValue() + (float) (Math.random() * 2 - 1); // добавление искажения [-1.0;1.0]
-            System.out.println("Шаг: "+currentStep+". Отправлено число " + value + " от агента " + agent.getLocalName());
-            mes.setContent(String.valueOf(value));
+
+        if(msg!=null&agent.LinkedAgents().size()>2&c<4)
+        {
+            mes.setContent(msg.getContent());
+            System.out.println("Я получил письмо (агент "+agent.getLocalName()+" )"+msg.getContent());
             agent.send(mes);
+            c++;
+        }
+        else if (msg!=null&agentsList.contains(agent.getLocalName())){
+            System.out.println("OH YEAH I TAKE IT");
+
+
+        }
+        else if (msg!=null&agent.LinkedAgents().size()<3){
+            query.setContent(msg.getContent());
+            System.out.println("Я получил письмо (агент "+agent.getLocalName()+" ) "+msg.getContent());
+            agent.send(query);
+        }
+
+        /*else if(msg!=null&Integer.getInteger(agent.getLocalName())>18){
+            System.out.println("Я бункер. Дай мне!!! "+msg.getContent());
+
+        }*/
+
+        if (msg==null) {
+            //mes.setContent("Было получено пустое сообщение");
+            //agent.send(mes);
             firstDelivery = false;
         }
-        if (msg != null) {
-            value = MakeMean(agent.GetValue(), Double.valueOf(msg.getContent()));
-            agent.SetValue(value);
-            if (Math.random() > 0.2) {
-                mes.setContent(String.valueOf((agent.GetValue()) + (float) (Math.random() * 2 - 1)));
-                System.out.println("Шаг: " + currentStep + ". Отправлено число " + (agent.GetValue() * (float) (Math.random() * 2 - 1)) + " от агента " + agent.getLocalName());
-                agent.send(mes);
-            } else {
-                System.out.println("Шаг: " + currentStep + ". Связь с агентом #" + agent.getLocalName() + " потеряна");
-            }
-        }
+
         if (currentStep < MAX_STEPS) {
             this.currentStep++;
         }
         else {
-            System.out.println("Среднее арифметическое агента #" + agent.getLocalName() + " = " + agent.GetValue());
+
             this.stop();
         }
     }
-    private double MakeMean(double my, double notmy) {
-        return (my + a * (notmy - my));
-    }
+
 }

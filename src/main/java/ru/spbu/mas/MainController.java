@@ -72,17 +72,19 @@ class MainController {
         ContainerController cc = rt.createMainContainer(p);
         int k = 1;
         try {
-            for(int i = 1; i <= MainController.numberOfAgents-2; i++) {
+            //создание причалов и портов
+            for(int i = 1; i <= MainController.numberOfAgents; i++) {
                 k++;
                 AgentController agent = cc.createNewAgent(Integer.toString(i),"ru.spbu.mas.DefaultAgent", new
                         Object[]{neighbors.get(i)});
                 agent.start();
             }
-            for(int i = k; i <= MainController.numberOfAgents; i++){
-                AgentController agent = cc.createNewAgent(Integer.toString(i),"ru.spbu.mas.Bunker", new
+            //создание бункеровщиков
+            /*for(int i = k; i <= MainController.numberOfAgents; i++){
+                AgentController agent = cc.createNewAgent(Integer.toString(i),"ru.spbu.mas.DefaultAgent", new
                         Object[]{neighbors.get(i)});
-                agent.start();
-            }
+                        agent.start();
+            }*/
 
         } catch (Exception e) {
             e.printStackTrace();
